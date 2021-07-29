@@ -7,8 +7,6 @@ import { Icon, NgIf } from "./";
 import { t } from "../locales/";
 import "./upload_queue.scss";
 
-const MAX_POOL_SIZE = 15;
-
 function humanFileSize(bytes, si) {
     var thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {
@@ -232,7 +230,7 @@ export class UploadQueue extends React.Component {
                 running: true,
                 error: null
             });
-            Promise.all(Array.apply(null, Array(MAX_POOL_SIZE)).map(() => {
+            Promise.all(Array.apply(null, Array(window.CONFIG["upload_pool_size"])).map(() => {
                 return this.runner();
             })).then(() => {
                 this.setState({ running: false });
